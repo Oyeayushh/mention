@@ -1,0 +1,51 @@
+{
+  "name": "AI Mention Bot",
+  "description": "A feature-rich Telegram mention/tagging bot built with Pyrogram.",
+  "keywords": ["telegram", "bot", "pyrogram", "mention"],
+  "website": "https://github.com/yourusername/AIMentionBot",
+  "repository": "https://github.com/yourusername/AIMentionBot",
+  "logo": "https://i.imgur.com/your-logo.png",
+  "success_url": "/",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "API_ID": {
+      "description": "Telegram API ID — my.telegram.org se lo",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Telegram API Hash — my.telegram.org se lo",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Bot Token — @BotFather se lo",
+      "required": true
+    },
+    "MONGO_URI": {
+      "description": "MongoDB Atlas connection string",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Tera Telegram User ID (@userinfobot se pata karo)",
+      "required": true
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "addons": [],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "echo 'No tests defined'"
+      }
+    }
+  }
+}
