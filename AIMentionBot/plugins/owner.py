@@ -29,8 +29,8 @@ async def broadcast(client: Client, message: Message):
     sent = 0
     failed = 0
 
-    # Broadcast to users
-    async for user_doc in await db.get_all_users():
+    # Users ko broadcast
+    async for user_doc in db.get_all_users():
         try:
             await client.send_message(user_doc["user_id"], text)
             sent += 1
@@ -38,8 +38,8 @@ async def broadcast(client: Client, message: Message):
             failed += 1
         await asyncio.sleep(0.05)
 
-    # Broadcast to groups
-    async for group_doc in await db.get_all_groups():
+    # Groups ko broadcast
+    async for group_doc in db.get_all_groups():
         try:
             await client.send_message(group_doc["chat_id"], text)
             sent += 1
