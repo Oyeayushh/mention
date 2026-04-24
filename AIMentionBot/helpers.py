@@ -1,7 +1,6 @@
 import asyncio
 from pyrogram import Client
-from pyrogram.types import ChatMember
-from pyrogram.enums import ChatMemberStatus, ChatType
+from pyrogram.enums import ChatMemberStatus, ChatMembersFilter
 from config import Config
 from AIMentionBot import state
 
@@ -32,7 +31,7 @@ async def get_admin_members(client: Client, chat_id: int) -> list:
     admins = []
     try:
         async for member in client.get_chat_members(
-            chat_id, filter="administrators"
+            chat_id, filter=ChatMembersFilter.ADMINISTRATORS
         ):
             if not member.user.is_bot:
                 admins.append(member.user)
@@ -48,27 +47,31 @@ async def tag_users(
     custom_text: str = None,
     prefix: str = "👋",
 ):
-    """
-    Tags users in batches of BATCH_SIZE.
-    Respects pause/stop state.
-    """
     chat_id = message.chat.id
     batch = Config.BATCH_SIZE
     state.set_state(chat_id, "running")
 
     for i in range(0, len(users), batch):
-        # Check state before every batch
+        # Pause check
         while state.is_paused(chat_id):
             await asyncio.sleep(1)
 
         if not state.is_running(chat_id):
             break
 
-        chunk = users[i : i + batch]
+        chunk = users[i: i + batch]
         mentions = " ".join(
             f"[{u.first_name}](tg://user?id={u.id})" for u in chunk
         )
-        text = f"{prefix} {custom_text}\n\n{mentions}" if custom_text else f"{prefix}\n\n{mentions}"
+
+        # Text build karo — prefix aur custom_text dono optional
+        parts = []
+        if prefix:
+            parts.append(prefix)
+        if custom_text:
+            parts.append(custom_text)
+        parts.append(mentions)
+        text = "\n\n".join(parts)
 
         try:
             await message.reply(text, disable_web_page_preview=True)
