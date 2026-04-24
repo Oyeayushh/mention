@@ -7,35 +7,35 @@ from AIMentionBot import state
 @Client.on_message(filters.command("stop") & filters.group)
 async def stop_cmd(client: Client, message: Message):
     if not await is_admin(client, message.chat.id, message.from_user.id):
-        return await message.reply("❌ Sirf admins ye command use kar sakte hain!")
+        return await message.reply("❌ **ᴀᴅᴍɪɴꜱ ᴏɴʟʏ!**")
 
     if not state.is_running(message.chat.id) and not state.is_paused(message.chat.id):
-        return await message.reply("ℹ️ Koi tagging chal nahi rahi.")
+        return await message.reply("ℹ️ **ɴᴏ ᴛᴀɢɢɪɴɢ ɪꜱ ʀᴜɴɴɪɴɢ.**")
 
     state.set_state(message.chat.id, "stopped")
     state.clear_state(message.chat.id)
-    await message.reply("⛔ **Tagging stop kar di gayi!**")
+    await message.reply("⛔ **ᴛᴀɢɢɪɴɢ ꜱᴛᴏᴘᴘᴇᴅ!**")
 
 
 @Client.on_message(filters.command("pause") & filters.group)
 async def pause_cmd(client: Client, message: Message):
     if not await is_admin(client, message.chat.id, message.from_user.id):
-        return await message.reply("❌ Sirf admins ye command use kar sakte hain!")
+        return await message.reply("❌ **ᴀᴅᴍɪɴꜱ ᴏɴʟʏ!**")
 
     if not state.is_running(message.chat.id):
-        return await message.reply("ℹ️ Koi tagging chal nahi rahi pause karne ke liye.")
+        return await message.reply("ℹ️ **ɴᴏᴛʜɪɴɢ ᴛᴏ ᴘᴀᴜꜱᴇ.**")
 
     state.set_state(message.chat.id, "paused")
-    await message.reply("⏸ **Tagging pause kar di gayi!** Resume ke liye `/resume` karo.")
+    await message.reply("⏸ **ᴛᴀɢɢɪɴɢ ᴘᴀᴜꜱᴇᴅ!** ᴜꜱᴇ `/resume` ᴛᴏ ᴄᴏɴᴛɪɴᴜᴇ.")
 
 
 @Client.on_message(filters.command("resume") & filters.group)
 async def resume_cmd(client: Client, message: Message):
     if not await is_admin(client, message.chat.id, message.from_user.id):
-        return await message.reply("❌ Sirf admins ye command use kar sakte hain!")
+        return await message.reply("❌ **ᴀᴅᴍɪɴꜱ ᴏɴʟʏ!**")
 
     if not state.is_paused(message.chat.id):
-        return await message.reply("ℹ️ Tagging pause nahi hai.")
+        return await message.reply("ℹ️ **ᴛᴀɢɢɪɴɢ ɪꜱ ɴᴏᴛ ᴘᴀᴜꜱᴇᴅ.**")
 
     state.set_state(message.chat.id, "running")
-    await message.reply("▶️ **Tagging resume kar di gayi!**")
+    await message.reply("▶️ **ᴛᴀɢɢɪɴɢ ʀᴇꜱᴜᴍᴇᴅ!**")
