@@ -4,7 +4,6 @@
   "keywords": ["telegram", "bot", "pyrogram", "mention"],
   "website": "https://github.com/yourusername/AIMentionBot",
   "repository": "https://github.com/yourusername/AIMentionBot",
-  "logo": "https://i.imgur.com/your-logo.png",
   "success_url": "/",
   "stack": "heroku-22",
   "buildpacks": [
@@ -37,7 +36,7 @@
   "formation": {
     "worker": {
       "quantity": 1,
-      "size": "free"
+      "size": "eco"
     }
   },
   "addons": [],
