@@ -52,7 +52,6 @@ async def tag_users(
     state.set_state(chat_id, "running")
 
     for i in range(0, len(users), batch):
-        # Pause check
         while state.is_paused(chat_id):
             await asyncio.sleep(1)
 
@@ -64,13 +63,12 @@ async def tag_users(
             f"[{u.first_name}](tg://user?id={u.id})" for u in chunk
         )
 
-        # Text build karo — prefix aur custom_text dono optional
-        parts = []
+        # ── Mentions upar, message neeche ──────────────────────
+        parts = [mentions]
         if prefix:
             parts.append(prefix)
         if custom_text:
             parts.append(custom_text)
-        parts.append(mentions)
         text = "\n\n".join(parts)
 
         try:
